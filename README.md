@@ -9,7 +9,7 @@ The app opens on Round 2 by default since that was what we last needed but updat
 ```bash
 cd next-app
 cp .env.local.example .env.local
-# send me a dm for the keys if you need them or sign in to the one signal and use the admin supabase account
+# Get keys from our one password and use the admin supabase account
 npm install
 npm run dev
 ```
