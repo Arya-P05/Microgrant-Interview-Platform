@@ -3,8 +3,8 @@ import "./globals.css";
 import { Providers } from "@/components/providers";
 
 export const metadata: Metadata = {
-  title: "VC Interview Booking",
-  description: "Book your Round 1 and Round 2 VC interview slots.",
+  title: "Interview Booking",
+  description: "Book interview and sponsor coffee chat slots.",
 };
 
 export default function RootLayout({
