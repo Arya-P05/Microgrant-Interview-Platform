@@ -1,0 +1,39 @@
+{
+  "eventDate": "2026-09-19",
+  "inviteExpiresAt": "2026-09-20T00:00:00-04:00",
+  "timeZone": "America/Toronto",
+  "slotMinutes": 30,
+  "sponsors": [
+    {
+      "name": "Federato",
+      "slug": "federato",
+      "aliases": [],
+      "day": "Saturday",
+      "startTime": "09:00",
+      "endTime": "13:00",
+      "locationLabel": "C-D (PSE 2342, 2344)",
+      "slotMinutes": 20,
+      "hackersPerSlot": 6,
+      "rooms": [
+        { "label": "PSE 2342", "roomName": "Room C" },
+        { "label": "PSE 2344", "roomName": "Room D" }
+      ]
+    },
+    {
+      "name": "Dominion Dynamics",
+      "slug": "dominion-dynamics",
+      "aliases": ["Dominion Dynamics", "DD"],
+      "day": "Saturday",
+      "startTime": "09:00",
+      "endTime": "13:00",
+      "locationLabel": "E-F (PSE 2346, 2348), Judging Room G (PSE 2352)",
+      "slotMinutes": 30,
+      "hackersPerSlot": 4,
+      "rooms": [
+        { "label": "PSE 2346", "roomName": "Room E" },
+        { "label": "PSE 2348", "roomName": "Room F" },
+        { "label": "PSE 2352", "roomName": "Room G" }
+      ]
+    }
+  ]
+}
