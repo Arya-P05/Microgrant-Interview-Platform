@@ -132,7 +132,22 @@ export type Database = {
       };
     };
     Views: { [_ in never]: never };
-    Functions: { [_ in never]: never };
+    Functions: {
+      book_coffee_chat_slot: {
+        Args: {
+          p_room_id?: string | null;
+          p_slot_id: string;
+          p_token: string;
+        };
+        Returns: Json;
+      };
+      get_coffee_chat_invite: {
+        Args: {
+          p_token: string;
+        };
+        Returns: Json;
+      };
+    };
     Enums: { [_ in never]: never };
     CompositeTypes: { [_ in never]: never };
   };
