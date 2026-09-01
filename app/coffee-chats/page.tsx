@@ -19,7 +19,7 @@ export default function CoffeeChatsHomePage() {
             <HiOutlineLockClosed className="mx-auto h-9 w-9 text-zinc-500" />
             <h2 className="mt-4 text-lg font-medium">Open your invite link</h2>
             <p className="mx-auto mt-2 max-w-md text-sm text-zinc-500">
-              Coffee chat booking is available through each student&apos;s
+              Coffee chat booking is available through each hacker&apos;s
               private Hack the North invite link.
             </p>
           </div>

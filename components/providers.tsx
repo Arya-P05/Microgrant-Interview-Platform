@@ -8,10 +8,13 @@ import { useEffect } from "react";
 import emailjs from "@emailjs/browser";
 
 const queryClient = new QueryClient();
+const emailJsPublicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
 
 export function Providers({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    emailjs.init("EuAJxr1WL8D7Rm-Zb");
+    if (!emailJsPublicKey) return;
+
+    emailjs.init({ publicKey: emailJsPublicKey });
   }, []);
 
   return (

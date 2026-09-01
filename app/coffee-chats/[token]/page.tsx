@@ -17,6 +17,10 @@ import {
   useCoffeeChatInvite,
 } from "@/hooks/useCoffeeChatInvite";
 import { toast } from "@/hooks/use-toast";
+import {
+  hasCoffeeChatEmailConfig,
+  sendCoffeeChatConfirmationEmail,
+} from "@/lib/coffeeChatEmail";
 
 const timeZone = "America/Toronto";
 
@@ -287,6 +291,30 @@ export default function CoffeeChatInvitePage() {
         title: "Coffee chat booked",
         description: `${result.booking.sponsor_name} at ${formatSlot(result.booking)}, ${bookingRoomLabel(result.booking)}`,
       });
+
+      if (student && hasCoffeeChatEmailConfig()) {
+        try {
+          await sendCoffeeChatConfirmationEmail({
+            student,
+            booking: result.booking,
+            date: formatDay(result.booking.starts_at),
+            time: formatSlot(result.booking),
+            room: bookingRoomLabel(result.booking),
+            bookingUrl: window.location.href,
+          });
+          toast({
+            title: "Confirmation email sent",
+            description: `Sent to ${student.email}.`,
+          });
+        } catch {
+          toast({
+            title: "Email not sent",
+            description:
+              "Your booking is confirmed, but the confirmation email could not be sent.",
+            variant: "destructive",
+          });
+        }
+      }
     } catch (bookingError) {
       const message =
         bookingError instanceof Error
