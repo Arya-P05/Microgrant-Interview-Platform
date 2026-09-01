@@ -3,8 +3,8 @@ import "./globals.css";
 import { Providers } from "@/components/providers";
 
 export const metadata: Metadata = {
-  title: "Interview Booking",
-  description: "Book interview and sponsor coffee chat slots.",
+  title: "Hack the North Coffee Chats",
+  description: "Book Hack the North sponsor coffee chat slots.",
 };
 
 export default function RootLayout({

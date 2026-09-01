@@ -6,17 +6,10 @@ export default function NotFound() {
       <div className="text-center">
         <p className="text-zinc-500 text-sm mb-4">Page not found</p>
         <Link
-          href="/round2"
+          href="/coffee-chats"
           className="text-emerald-400 hover:text-emerald-300 text-sm"
         >
-          Go to Round 2
-        </Link>
-        <span className="text-zinc-600 mx-2">·</span>
-        <Link
-          href="/round1"
-          className="text-emerald-400 hover:text-emerald-300 text-sm"
-        >
-          Round 1
+          Go to coffee chats
         </Link>
       </div>
     </div>
