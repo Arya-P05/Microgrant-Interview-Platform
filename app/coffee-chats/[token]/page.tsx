@@ -364,21 +364,32 @@ export default function CoffeeChatInvitePage() {
                 >
                   <div className="font-medium">{booking.sponsor_name}</div>
                   <div className="mt-3 grid gap-2 text-sm text-zinc-400 sm:grid-cols-3">
-                    <div>
-                      <HiOutlineClock className="mb-1 h-4 w-4 text-zinc-500" />
-                      <div>{formatSlot(booking)}</div>
-                      <div className="text-zinc-500">
-                        {formatDay(booking.starts_at)}
+                    <div className="grid grid-cols-[1rem_minmax(0,1fr)] items-start gap-x-2">
+                      <HiOutlineClock className="mt-0.5 h-4 w-4 text-zinc-500" />
+                      <div className="min-w-0">
+                        <div>{formatSlot(booking)}</div>
+                        <div className="text-zinc-500">
+                          {formatDay(booking.starts_at)}
+                        </div>
                       </div>
                     </div>
-                    <div>
-                      <HiOutlineLocationMarker className="mb-1 h-4 w-4 text-zinc-500" />
-                      <div>{bookingRoomLabel(booking)}</div>
+                    <div className="grid grid-cols-[1rem_minmax(0,1fr)] items-start gap-x-2">
+                      <HiOutlineLocationMarker className="mt-0.5 h-4 w-4 text-zinc-500" />
+                      <div className="min-w-0">
+                        <div>{booking.room_label}</div>
+                        {booking.room_name && (
+                          <div className="text-zinc-500">
+                            {booking.room_name}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    <div>
-                      <HiOutlineUser className="mb-1 h-4 w-4 text-zinc-500" />
-                      <div>{student?.full_name}</div>
-                      <div className="text-zinc-500">{student?.email}</div>
+                    <div className="grid grid-cols-[1rem_minmax(0,1fr)] items-start gap-x-2">
+                      <HiOutlineUser className="mt-0.5 h-4 w-4 text-zinc-500" />
+                      <div className="min-w-0">
+                        <div>{student?.full_name}</div>
+                        <div className="text-zinc-500">{student?.email}</div>
+                      </div>
                     </div>
                   </div>
                 </div>
