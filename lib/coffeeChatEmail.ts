@@ -5,6 +5,7 @@ const emailJsPublicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
 const emailJsServiceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
 const emailJsCoffeeChatTemplateId =
   process.env.NEXT_PUBLIC_EMAILJS_COFFEE_CHAT_TEMPLATE_ID;
+const eventTimeZone = "America/Toronto";
 
 export function hasCoffeeChatEmailConfig() {
   return Boolean(
@@ -22,21 +23,47 @@ interface SendCoffeeChatConfirmationEmailArgs {
 }
 
 function googleCalendarTimestamp(iso: string) {
-  return new Date(iso).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: eventTimeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  })
+    .formatToParts(new Date(iso))
+    .reduce<Record<string, string>>((acc, part) => {
+      if (part.type !== "literal") acc[part.type] = part.value;
+      return acc;
+    }, {});
+
+  return `${parts.year}${parts.month}${parts.day}T${parts.hour}${parts.minute}${parts.second}`;
 }
 
 function buildGoogleCalendarUrl({
   booking,
+  date,
+  time,
   room,
-  bookingUrl,
-}: Pick<SendCoffeeChatConfirmationEmailArgs, "booking" | "room" | "bookingUrl">) {
+}: Pick<SendCoffeeChatConfirmationEmailArgs, "booking" | "date" | "time" | "room">) {
   const params = new URLSearchParams({
     action: "TEMPLATE",
-    text: `Hack the North Coffee Chat with ${booking.sponsor_name}`,
+    text: `${booking.sponsor_name} Coffee Chat`,
     dates: `${googleCalendarTimestamp(booking.starts_at)}/${googleCalendarTimestamp(
       booking.ends_at
     )}`,
-    details: `Your Hack the North sponsor coffee chat is confirmed.\n\nPrivate invite: ${bookingUrl}`,
+    ctz: eventTimeZone,
+    details: [
+      `Your Hack the North coffee chat with ${booking.sponsor_name} is confirmed.`,
+      "",
+      `Time: ${time}`,
+      `Date: ${date}`,
+      `Location: ${room}`,
+      "",
+      "If you're lost or unsure where to go, ask an organizer and we'll be happy to point you in the right direction.",
+    ].join("\n"),
     location: room,
   });
 
@@ -69,8 +96,9 @@ export async function sendCoffeeChatConfirmationEmail({
       booking_url: bookingUrl,
       google_calendar_url: buildGoogleCalendarUrl({
         booking,
+        date,
+        time,
         room,
-        bookingUrl,
       }),
       event_name: "Hack the North Coffee Chats",
     },
