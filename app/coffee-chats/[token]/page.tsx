@@ -306,13 +306,8 @@ export default function CoffeeChatInvitePage() {
             title: "Confirmation email sent",
             description: `Sent to ${student.email}.`,
           });
-        } catch {
-          toast({
-            title: "Email not sent",
-            description:
-              "Your booking is confirmed, but the confirmation email could not be sent.",
-            variant: "destructive",
-          });
+        } catch (emailError) {
+          console.warn("Coffee chat confirmation email failed", emailError);
         }
       }
     } catch (bookingError) {
