@@ -13,7 +13,6 @@ import {
   CoffeeChatBooking,
   CoffeeChatRoom,
   CoffeeChatSlot,
-  CoffeeChatSponsor,
   useCoffeeChatInvite,
 } from "@/hooks/useCoffeeChatInvite";
 import { toast } from "@/hooks/use-toast";
@@ -71,13 +70,6 @@ function bookingRoomLabel(booking: CoffeeChatBooking) {
 
 function roomDisplayLabel(room: CoffeeChatRoom) {
   return room.room_name ? `${room.label} (${room.room_name})` : room.label;
-}
-
-function chooseSponsorRoom(sponsor: CoffeeChatSponsor) {
-  const rooms = sponsor.rooms ?? [];
-  if (rooms.length === 0) return null;
-
-  return rooms[Math.floor(Math.random() * rooms.length)];
 }
 
 const pendingSelectionMaxAgeMs = 24 * 60 * 60 * 1000;
@@ -228,24 +220,11 @@ export default function CoffeeChatInvitePage() {
       return;
     }
 
-    const pendingRoom =
-      pendingSponsor.rooms?.find((room) => room.id === pendingSelection.roomId) ??
-      chooseSponsorRoom(pendingSponsor);
-
     window.setTimeout(() => {
       setSelectedSponsorId(pendingSponsor.id);
       setSelectedSlot(pendingSlot);
-      setSelectedRoom(pendingRoom);
+      setSelectedRoom(null);
     }, 0);
-
-    if (pendingRoom?.id !== pendingSelection.roomId) {
-      savePendingSelection(token, {
-        sponsorId: pendingSponsor.id,
-        slotId: pendingSlot.id,
-        roomId: pendingRoom?.id ?? null,
-        updatedAt: Date.now(),
-      });
-    }
   }, [bookableSponsors, confirmedBookings, invite?.valid, selectedSlot, token]);
 
   const activeSelectedSponsorId =
@@ -273,12 +252,10 @@ export default function CoffeeChatInvitePage() {
   async function confirmBooking() {
     if (!selectedSlot || !selectedSponsor) return;
 
-    const roomForBooking = selectedRoom ?? chooseSponsorRoom(selectedSponsor);
-
     try {
       const result = await bookSlot.mutateAsync({
         slotId: selectedSlot.id,
-        roomId: roomForBooking?.id,
+        roomId: null,
       });
       setLocalBookings((bookings) =>
         mergeBookings(bookings, [result.booking])
@@ -546,13 +523,12 @@ export default function CoffeeChatInvitePage() {
                           disabled={slot.is_full}
                           onClick={() => {
                             if (!selectedSponsor) return;
-                            const room = chooseSponsorRoom(selectedSponsor);
                             setSelectedSlot(slot);
-                            setSelectedRoom(room);
+                            setSelectedRoom(null);
                             savePendingSelection(token, {
                               sponsorId: selectedSponsor.id,
                               slotId: slot.id,
-                              roomId: room?.id ?? null,
+                              roomId: null,
                               updatedAt: Date.now(),
                             });
                           }}
